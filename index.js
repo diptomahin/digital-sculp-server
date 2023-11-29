@@ -27,6 +27,7 @@ async function run() {
     
     const servicesCollection = client.db('DigitalSculpDB').collection('services');
     const testimonialsCollection = client.db('DigitalSculpDB').collection('testimonials');
+    const usersCollection = client.db('DigitalSculpDB').collection('users');
 
 
     //services
@@ -44,6 +45,16 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result);
       })
+
+
+    //User
+
+    app.post('/users', async (req, res) => {
+        const booking = req.body
+        const result = await bookingsCollection.insertOne(booking)
+        res.send(result)
+      });
+  
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
