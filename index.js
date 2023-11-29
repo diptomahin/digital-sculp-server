@@ -50,10 +50,21 @@ async function run() {
     //User
 
     app.post('/users', async (req, res) => {
-        const booking = req.body
-        const result = await bookingsCollection.insertOne(booking)
+        const user = req.body
+        const query = { email: user.email };
+        const existingUser = await usersCollection.findOne(query);
+        if (existingUser) {
+          return res.send({ message: "account already exist" });
+        }
+        const result = await usersCollection.insertOne(user)
         res.send(result)
       });
+
+      app.get('/users', async (req, res) => {
+        const cursor = usersCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      })
   
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
