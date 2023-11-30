@@ -28,6 +28,7 @@ async function run() {
     const servicesCollection = client.db('DigitalSculpDB').collection('services');
     const testimonialsCollection = client.db('DigitalSculpDB').collection('testimonials');
     const usersCollection = client.db('DigitalSculpDB').collection('users');
+    const workCollection = client.db('DigitalSculpDB').collection('works');
 
 
     //services
@@ -101,6 +102,13 @@ async function run() {
       res.send(result);
 
     })
+
+    //work-sheet
+    app.post('/works', async (req, res) => {
+      const work = req.body
+      const result = await workCollection.insertOne(work)
+      res.send(result)
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
